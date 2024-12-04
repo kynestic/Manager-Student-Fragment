@@ -12,6 +12,7 @@ import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.fragment.findNavController
 
 class StudentListFragment : Fragment() {
     private lateinit var studentRepository: StudentRepository
@@ -26,8 +27,13 @@ class StudentListFragment : Fragment() {
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recyclerViewStudents)
         studentRepository = StudentRepository()
+
         studentAdapter = StudentAdapter(studentRepository.getAllStudents()) { student ->
-            // Xử lý khi click vào một sinh viên
+            // Điều hướng tới EditStudentFragment khi click vào một sinh viên
+            val bundle = Bundle().apply {
+                putString("studentId", student.id)
+            }
+            findNavController().navigate(R.id.action_studentListFragment_to_editStudentFragment, bundle)
         }
 
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -57,11 +63,15 @@ class StudentListFragment : Fragment() {
         return when (item.itemId) {
             R.id.action_edit -> {
                 // Điều hướng đến EditStudentFragment
+                val bundle = Bundle().apply {
+                    putString("studentId", student.id)
+                }
+                findNavController().navigate(R.id.action_studentListFragment_to_editStudentFragment, bundle)
                 true
             }
             R.id.action_remove -> {
                 studentRepository.removeStudent(student)
-                studentAdapter.notifyDataSetChanged()
+                studentAdapter.updateStudents(studentRepository.getAllStudents()) // Cập nhật lại RecyclerView
                 true
             }
             else -> super.onContextItemSelected(item)
@@ -77,9 +87,12 @@ class StudentListFragment : Fragment() {
         return when (item.itemId) {
             R.id.action_add -> {
                 // Điều hướng đến AddStudentFragment
+                findNavController().navigate(R.id.action_studentListFragment_to_addStudentFragment)
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+
 }

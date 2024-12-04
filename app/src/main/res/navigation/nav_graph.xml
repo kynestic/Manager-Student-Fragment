@@ -4,29 +4,49 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/studentListFragment">
 
+    <!-- Fragment danh sách sinh viên -->
     <fragment
         android:id="@+id/studentListFragment"
         android:name="com.example.myapplication.StudentListFragment"
         android:label="Danh sách sinh viên">
+
+        <!-- Action chuyển đến AddStudentFragment -->
         <action
             android:id="@+id/action_studentListFragment_to_addStudentFragment"
             app:destination="@id/addStudentFragment" />
+
+        <!-- Action chuyển đến EditStudentFragment -->
         <action
             android:id="@+id/action_studentListFragment_to_editStudentFragment"
             app:destination="@id/editStudentFragment" />
     </fragment>
 
+    <!-- Fragment thêm sinh viên -->
     <fragment
         android:id="@+id/addStudentFragment"
         android:name="com.example.myapplication.AddStudentFragment"
-        android:label="Thêm sinh viên" />
+        android:label="Thêm sinh viên">
+        <!-- Action quay lại StudentListFragment -->
+        <action
+            android:id="@+id/action_addStudentFragment_to_studentListFragment"
+            app:destination="@id/studentListFragment" />
+    </fragment>
 
+    <!-- Fragment sửa sinh viên -->
     <fragment
         android:id="@+id/editStudentFragment"
         android:name="com.example.myapplication.EditStudentFragment"
         android:label="Sửa thông tin sinh viên">
+
+        <!-- Argument để nhận studentId từ Fragment khác -->
         <argument
             android:name="studentId"
             app:argType="string" />
+
+        <!-- Action quay lại StudentListFragment -->
+        <action
+            android:id="@+id/action_editStudentFragment_to_studentListFragment"
+            app:destination="@id/studentListFragment" />
     </fragment>
+
 </navigation>

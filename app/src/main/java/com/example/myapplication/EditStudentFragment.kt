@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 
 class EditStudentFragment : Fragment() {
     private lateinit var studentRepository: StudentRepository
@@ -29,17 +30,23 @@ class EditStudentFragment : Fragment() {
         val studentId = arguments?.getString("studentId")
         currentStudent = studentId?.let { studentRepository.getStudentById(it) }
 
+        // Hiển thị thông tin sinh viên trong các trường nhập liệu
         currentStudent?.let { student ->
             edtFullName.setText(student.fullName)
             edtStudentCode.setText(student.studentCode)
         }
 
+        // Cập nhật thông tin sinh viên khi bấm "Cập nhật"
         btnSave.setOnClickListener {
             currentStudent?.let { student ->
                 student.fullName = edtFullName.text.toString()
                 student.studentCode = edtStudentCode.text.toString()
+
+                // Cập nhật thông tin sinh viên trong StudentRepository
                 studentRepository.updateStudent(student)
-                // Quay lại màn hình danh sách
+
+                // Quay lại StudentListFragment
+                findNavController().navigate(R.id.action_editStudentFragment_to_studentListFragment)
             }
         }
 

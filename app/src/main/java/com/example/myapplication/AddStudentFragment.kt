@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import java.util.UUID
 
 class AddStudentFragment : Fragment() {
@@ -36,7 +37,7 @@ class AddStudentFragment : Fragment() {
                     studentCode
                 )
                 studentRepository.addStudent(newStudent)
-                // Quay lại màn hình danh sách
+                findNavController().navigate(R.id.action_addStudentFragment_to_studentListFragment) // Quay lại danh sách
             }
         }
 

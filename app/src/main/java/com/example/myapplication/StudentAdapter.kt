@@ -7,9 +7,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class StudentAdapter(
-    private val students: List<Student>,
+    private var students: List<Student>,
     private val onItemClick: (Student) -> Unit
 ) : RecyclerView.Adapter<StudentAdapter.StudentViewHolder>() {
+
+    // Cập nhật lại danh sách sinh viên
+    fun updateStudents(newStudents: List<Student>) {
+        students = newStudents
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudentViewHolder {
         val view = LayoutInflater.from(parent.context)
